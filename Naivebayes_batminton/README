@@ -1,0 +1,94 @@
+🏸 Naive Bayes Badminton Prediction
+📌 Overview
+
+This project implements a Naive Bayes classification model to predict whether a game of badminton should be played based on weather conditions.
+
+The dataset includes environmental factors such as:
+
+Outlook
+Temperature
+Humidity
+Wind
+
+The target variable:
+
+Play_Badminton (Yes/No)
+📂 Dataset
+
+The dataset used: badminton_dataset.csv
+
+Features:
+Feature	Description
+Outlook	Weather condition (Sunny, Overcast, Rain)
+Temperature	Temperature level
+Humidity	Humidity level
+Wind	Wind condition (Weak/Strong)
+Target:
+Column	Description
+Play_Badminton	Whether to play (Yes/No)
+⚙️ Workflow
+1. Data Loading
+import pandas as pd
+b = pd.read_csv("badminton_dataset.csv")
+2. Data Exploration
+Checked missing values
+Viewed dataset info
+Generated statistical summary
+3. Data Preprocessing
+Converted categorical values to numerical using Label Encoding
+from sklearn.preprocessing import LabelEncoder
+l = LabelEncoder()
+for i in b.columns:
+    if b[i].dtype == "object":
+        b[i] = l.fit_transform(b[i])
+4. Feature Selection
+x = b[["Outlook", "Temperature", "Humidity", "Wind"]]
+y = b["Play_Badminton"]
+5. Train-Test Split
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(
+    x, y, test_size=0.2, random_state=42
+)
+6. Model Training
+
+Model used: Multinomial Naive Bayes
+
+from sklearn.naive_bayes import MultinomialNB
+model = MultinomialNB()
+model.fit(x_train, y_train)
+7. Prediction
+y_pred = model.predict(x_test)
+8. Evaluation Metrics
+Accuracy Score
+Confusion Matrix
+Classification Report
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+📊 Results
+The model predicts whether badminton should be played based on weather conditions.
+Performance is evaluated using standard classification metrics.
+
+(Exact accuracy depends on dataset size and split)
+
+🧠 Algorithm Used
+Naive Bayes Classifier
+Based on Bayes' Theorem
+Assumes independence between features
+Suitable for categorical data
+🚀 How to Run
+Install dependencies:
+pip install pandas scikit-learn
+Place dataset in the same directory:
+badminton_dataset.csv
+Run the notebook or script.
+📁 Project Structure
+Naivebayesbatminton.ipynb
+badminton_dataset.csv
+README.md
+📌 Key Notes
+Label Encoding is applied to all categorical features.
+MultinomialNB works well for discrete/categorical data.
+Small dataset → results may vary with split.
